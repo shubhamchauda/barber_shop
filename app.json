@@ -1,0 +1,12 @@
+{
+  "name": "barber_shop",
+  "displayName": "barber_shop",
+  "expo": {
+    "name": "barber_shop",
+    "slug": "barber_shop",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
