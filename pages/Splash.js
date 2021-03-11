@@ -21,7 +21,6 @@ export default class Splash extends React.Component
 
   async componentDidMount()
     {
-
         await AsyncStorage.getItem('status').then((value) =>{
             console.log(value);
             this.setState({status:value})

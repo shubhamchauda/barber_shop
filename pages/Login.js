@@ -28,6 +28,11 @@ export default class Login extends React.Component
 
         }
     }
+   async componentDidMount()
+    {     
+            await AsyncStorage.setItem('status','0')
+            await AsyncStorage.removeItem('data','')
+    }
 
 
 
@@ -61,7 +66,7 @@ export default class Login extends React.Component
         if (json.status == '1')
         {
              AsyncStorage.setItem('status',json.status.toString())
-             AsyncStorage.setItem('data',json.data.toString())
+             AsyncStorage.setItem('data',JSON.stringify(json.data))
             this.props.navigation.replace('Drawer')
               
  
