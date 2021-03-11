@@ -9,6 +9,7 @@ import Splash from './pages/Splash'
 import Login from './pages/Login'
 import BarberLogin from './pages/BarberLogin'
 import UserRegister from './pages/UserRegister'
+import drawer from './pages/drawernavigation'
 
 
 const Stack = createStackNavigator()
@@ -23,6 +24,7 @@ export default class App extends React.Component {
       <Stack.Screen name = 'Splash' component = {Splash} ></Stack.Screen>
       <Stack.Screen name = 'BarberLogin' component = {BarberLogin} ></Stack.Screen>
       <Stack.Screen name = 'UserRegister' component = {UserRegister}></Stack.Screen>
+      <Stack.Screen name = 'Drawer' component = {drawer}></Stack.Screen>
     </Stack.Navigator>
   </NavigationContainer>
   );
