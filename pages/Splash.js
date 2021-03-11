@@ -1,6 +1,7 @@
 import React from "react";
 import {View,StyleSheet,Text} from 'react-native'
 import {color}  from './color'
+import AsyncStorage from '@react-native-community/async-storage'
 
 
 
@@ -16,9 +17,29 @@ import {color}  from './color'
 export default class Splash extends React.Component
 {
 
-    componentDidMount()
+    
+
+  async componentDidMount()
     {
-        setTimeout(()=>{this.props.navigation.replace('Login')},2500)
+
+        await AsyncStorage.getItem('status').then((value) =>{
+            console.log(value);
+            this.setState({status:value})
+            if (value == '')
+                    {
+                        setTimeout(()=>{this.props.navigation.replace('UserRegister')},2500)
+                     }
+            else if(value == '1')
+                    {
+                        setTimeout(()=>{this.props.navigation.replace('Drawer')},2500)
+                    }
+            else
+                    {
+                         setTimeout(()=>{this.props.navigation.replace('Login')},2500) 
+                    }
+           });
+        
+       
     }
 
  

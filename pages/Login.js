@@ -62,7 +62,7 @@ export default class Login extends React.Component
         {
              AsyncStorage.setItem('status',json.status.toString())
              AsyncStorage.setItem('data',json.data.toString())
-            //  this.props.navigation.replace('drawer')
+            this.props.navigation.replace('Drawer')
               
  
        }   
