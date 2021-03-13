@@ -7,6 +7,7 @@ import Home from './Drawer/Home'
 import Header from './Drawer/header'
 import AsyncStorage from '@react-native-community/async-storage'
 import Login from './Login'
+import Store_Detail from './Drawer/StoreDetail'
 
 
 const Stack = createStackNavigator()
@@ -23,7 +24,8 @@ export default class drawer extends React.Component
     return(
         <Stack.Navigator initialRouteName = 'Home'>
             <Stack.Screen name='Home' component = {Home} options = {{headerShown:false}} ></Stack.Screen>
-            <Stack.Screen name = 'Header' component ={Header} ></Stack.Screen>
+            
+            <Stack.Screen name ='store_detail' component={Store_Detail }options ={{headerShown:false}}></Stack.Screen> 
                   
         </Stack.Navigator>
         );
@@ -35,7 +37,8 @@ export default class drawer extends React.Component
         return( 
             <Drawer.Navigator initialRouteName = 'HomeNavigator'>
                 <Drawer.Screen name = 'HomeNavigator' component = {this.HomeNavigator} options = {{drawerLabel:'Home'}}></Drawer.Screen>
-                      
+                
+
             </Drawer.Navigator>
     
         );

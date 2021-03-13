@@ -1,1 +1,1 @@
-export const color = {main:'#3a3f51',primary:'#eaeef3',secondary:'#ffffff',tertiary:'#e91e63'} ;
+export const color = {main:'#3a3f51',primary:'#eaeef3',secondary:'#ffffff',tertiary:'#e91e63',list_bg:'#f2f2f2'} ;

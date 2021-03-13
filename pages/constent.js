@@ -1,0 +1,1 @@
+export const url = "https://avalancheinfotech.com/projects/barbershop/";
