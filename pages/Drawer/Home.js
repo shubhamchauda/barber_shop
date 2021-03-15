@@ -14,8 +14,6 @@ import {url} from '../constent'
 
 
 
-
-
 export default class Home extends React.Component
 {   constructor(props)
     {
@@ -23,35 +21,39 @@ export default class Home extends React.Component
         this.state = {
                         search:'',
                          data:[],
-                         shop_list:[]
+                         shop_list:[],
+                        //  color: ['red','white','green','cyan','blue','violet','grey','orange','black'],
+                        //  imgBg:[],
+                         
                      }
-    }
-   
-
-
-  
-    
+    }    
     
     async componentDidMount()
       { 
        let list =  await fetch('https://avalancheinfotech.com/projects/barbershop_api/owner/store/list_all.php')
        let result = await list.json()
        this.setState({shop_list:result.data})
-       console.log(this.state.shop_list);
+      //  for(i=1;i<=this.state.shop_list.length;i++){
+      //      this.state.imgBg.push(this.state.color[Math.floor(Math.random() * 10)]);
+      //  }
+      //  console.log(this.state.imgBg);
       
     
       } 
        
   
-      renderItem = ({item }) => (
+      renderItem = ({item,index}) => (
+        
+        
       <TouchableOpacity onPress={()=> this.props.navigation.navigate('store_detail',{item}) }>
         
        <View style = {{ flexDirection:'row',padding:10, borderRadius:5,marginHorizontal:10,marginBottom:10,backgroundColor: color.secondary,padding:5,alignItems:'center'}}>
         
-         <ImageBackground source={require('../../assets/favicon.png')} style = {{resizeMode: 'stretch',height:100,width:'30%' ,resizeMode:'stretch',backgroundColor:color.list_bg}}>
+          <ImageBackground source={require('../../assets/favicon.png')} style = {{resizeMode: 'stretch',height:100,width:'30%' ,resizeMode:'stretch',backgroundColor:color.list_bg}}>
           <Image  style={{height:'90%',width:'90%',resizeMode:'contain', margin:10}} source={{uri:url+item.image}} />
 
-        </ImageBackground>
+        </ImageBackground> 
+        {/* <Avatar.Text style ={{backgroundColor:this.state.imgBg[index]}} size={100} label={item.name[0] } ><Avatar.Image size={100} source={{uri:url+item.image}} /></Avatar.Text> */}
           <View style={{width:'70%',marginLeft:10}}>
           <Paragraph style={{fontSize:9,marginBottom:-10}}>#{item.store_no} </Paragraph>
                 <Title>{item.name}</Title>
@@ -92,8 +94,10 @@ export default class Home extends React.Component
                     </Card>
                                       
                     <FlatList
+                           
                            data={this.state.shop_list}
-                           renderItem={this.renderItem} 
+                           renderItem={this.renderItem}
+                           keyExtractor = {(item) => item.store_no}
                           />
 
 
