@@ -18,14 +18,48 @@ export default class Store_Detail extends React.Component
         super(props);
         this.state = {
                         
-                         detail:this.props.route.params.item
+                         detail:this.props.route.params.item,
+                         data:[]
                      }
     
             
             }
             
    
-   
+   async componentDidMount()
+   {
+            await AsyncStorage.getItem('data').then((value)=>{this.setState({data:value})})
+            console.log(this.state.data);
+   }
+   async updateFev()
+   {
+     
+  let  details = 
+             {
+                 user_id:this.state.data.key,
+                 store_id:this.state.detail.id,
+                 stylist_id:'0'
+
+              }
+              console.log(details);
+
+    var formBody = [];
+            for (var property in details) {
+                 var encodedKey = encodeURIComponent(property);
+                 var encodedValue = encodeURIComponent(details[property]);
+                 formBody.push(encodedKey + "=" + encodedValue);
+                }
+    
+   let response = await fetch('avalancheinfotech.com/projects/barbershop_api/user/favorite/add.php',{
+        method: 'POST',
+        headers: 
+        {
+           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body:formBody
+        })
+     console.log((response));
+   }
 
 
    
@@ -42,16 +76,16 @@ export default class Store_Detail extends React.Component
                      <View style={{flexDirection:'column',justifyContent:'center'}}>
 
                          <View style={{alignItems:'center',borderRadius:10}}>
-                            <ImageBackground   style={{height:200,borderRadius:75,width:'50%',resizeMode:'contain'}} source={require('../../assets/favicon.png')}>
-                            <Image style={{height:200,borderRadius:75,width:'100%',resizeMode:'contain'}} source={{uri:url+this.state.detail.image}} />
-                            </ImageBackground>
+                            {/* <ImageBackground   style={{height:200,borderRadius:75,width:'50%',resizeMode:'contain'}} source={require('../../assets/favicon.png')}> */}
+                            <Image style={{height:200,width:'100%',resizeMode:'contain'}} source={{uri:url+this.state.detail.image}} />
+                            {/* </ImageBackground> */}
                          </View>
                         
                        <View backgroundColor='white' style={{height:550,justifyContent:'center',alignItems:'center',margin:20,borderRadius:20,borderWidth:1,borderColor:'lightgray'}}>
                      
                              <Text style={{fontSize:35,color:color.main,fontWeight:'bold',justifyContent:'center'}}>{this.state.detail.name}</Text>
-                             <Subheading style={{fontSize:15}}>Store No.{this.state.detail.store_no}</Subheading>
-                                    <View style={{flexDirection:'column',marginTop:15}}>
+                             <Subheading style={{fontSize:15}}>Store No. - {this.state.detail.store_no}</Subheading>
+                                    <View style={{flexDirection:'column',marginTop:15,padding:20}}>
                                                 
                                                 <View style={{flexDirection:'row',margin:5           }}>
                                                     <View style={{flexDirection:'row',width:'50%',justifyContent:'flex-start',alignItems:'center'}}>
@@ -144,13 +178,29 @@ export default class Store_Detail extends React.Component
                                                                                         
                                                     </View>
                                                 </View>
-                                                
-
-
+                                    
 
                                      </View>
 
                                   
+                         </View>
+                         <View flexDirection='row'  style={{marginBottom:100,marginLeft:20,marginRight:20 ,borderTopLeftRadius:30,borderBottomEndRadius:30}}>
+                             <View style={{padding:10,width:'50%',backgroundColor:'white',justifyContent:'center',alignItems:'center',borderTopLeftRadius:30,borderWidth:1}}>
+                                 <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{this.updateFev()}}>
+                                 <Icon size={20} style={{marginRight:10}} name='heart'></Icon>
+                                <Text style={{fontSize:20,color:color.main}}>Add to Favourite
+                                </Text>
+                                </TouchableOpacity>
+                             </View>
+                             <View style={{padding:10,width:'50%',backgroundColor:color.main,justifyContent:'center',alignItems:'center',borderBottomEndRadius:30}}>
+                                <TouchableOpacity> 
+
+                                <Text  style={{fontSize:20,color:'white'}}>
+                                    Get Appoinment
+                                </Text>
+                                </TouchableOpacity>
+                             </View>
+
                          </View>
                          
                     </View>
