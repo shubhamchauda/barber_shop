@@ -6,6 +6,7 @@ import {color} from '../color'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import {url} from '../constent'
 import Icon  from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-simple-toast';
 
 
 
@@ -28,15 +29,15 @@ export default class Store_Detail extends React.Component
    
    async componentDidMount()
    {
-            await AsyncStorage.getItem('data').then((value)=>{this.setState({data:value})})
-            console.log(this.state.data);
+            await AsyncStorage.getItem('data').then((value)=>{this.setState({data:JSON.parse(value)})})
+            console.log(this.state.data.id);
    }
    async updateFev()
    {
      
   let  details = 
              {
-                 user_id:this.state.data.key,
+                 user_id:this.state.data.id,
                  store_id:this.state.detail.id,
                  stylist_id:'0'
 
@@ -49,8 +50,8 @@ export default class Store_Detail extends React.Component
                  var encodedValue = encodeURIComponent(details[property]);
                  formBody.push(encodedKey + "=" + encodedValue);
                 }
-    
-   let response = await fetch('avalancheinfotech.com/projects/barbershop_api/user/favorite/add.php',{
+    console.log(formBody);
+   let response = await fetch('https://avalancheinfotech.com/projects/barbershop_api/user/favorite/add.php',{
         method: 'POST',
         headers: 
         {
@@ -58,8 +59,11 @@ export default class Store_Detail extends React.Component
         },
         body:formBody
         })
-     console.log((response));
+    
+     let res = await response.json()
+     Toast.show(res.message.toString())  
    }
+
 
 
    
@@ -177,8 +181,7 @@ export default class Store_Detail extends React.Component
                                                         <Text style={{fontSize:20}}>{st.web_url}</Text>
                                                                                         
                                                     </View>
-                                                </View>
-                                    
+                                                </View>                                   
 
                                      </View>
 
@@ -193,7 +196,7 @@ export default class Store_Detail extends React.Component
                                 </TouchableOpacity>
                              </View>
                              <View style={{padding:10,width:'50%',backgroundColor:color.main,justifyContent:'center',alignItems:'center',borderBottomEndRadius:30}}>
-                                <TouchableOpacity> 
+                                <TouchableOpacity onPress = {()=>{this.props.navigation.navigate('getappoinment')}}> 
 
                                 <Text  style={{fontSize:20,color:'white'}}>
                                     Get Appoinment

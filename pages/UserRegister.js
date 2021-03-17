@@ -20,13 +20,14 @@ export default class Login extends React.Component
     {
         super(props)
         this.state = {
+            state_list:[],
             f_name:'',
             l_name:'',
             dob:new Date(),
-            gender:'Gender',
+            gender:'Male',
             address:'',
             city:'',
-            state:'',
+            state:'--select--',
             phone:'',
             country:'',
             zipcode:'',
@@ -37,34 +38,48 @@ export default class Login extends React.Component
         }
     }
 
+  
 
 
-    api =async ()=>{try {
+   async componentDidMount()
+   {
+    fetch("https://avalancheinfotech.com/projects/barbershop_api/admin/state/list.php")
+      .then(res=>res.json())
+      .then(async (res) => {
+        this.setState({state_list:res.data})
+      })
+      .catch((errorMessage) => {
+      })
+   }
+
+
+    api =async ()=>{
+      try {
       var details = {
-        // f_name:this.state.f_name,
-        // l_name:this.state.l_name,
-        // phone:this.state.phone,
-        // email:this.state.email,
-        // password:this.state.password,
-        // dob:this.state.dob,
-        // gender:this.state.gender,
-        // address:this.state.address,
-        // city:this.state.city,
-        // state:this.state.state,
-        // country:this.state.country,
-        // zipcode:this.state.zipcode,
-        f_name:'Shubham',
-        l_name:'Chauda',
-        phone:'9630069774',
-        email:'avl.shubhamchauda@gmail.com',
-        password:'123456',
-        dob:'0000',
-        gender:'Male',
-        address:'D-18C, Brajaayani NAgar, Limbodi',
-        city:'Indore',
-        state:'MP',
-        country:'India',
-        zipcode:'452020',
+         f_name:this.state.f_name,
+         l_name:this.state.l_name,
+         phone:this.state.phone,
+         email:this.state.email,
+         password:this.state.password,
+         dob:this.state.dob.getDate()+"-"+(this.state.dob.getMonth()+1)+'-'+this.state.dob.getFullYear(),
+         gender:this.state.gender,
+         address:this.state.address,
+         city:this.state.city,
+         state:this.state.state,
+         country:this.state.country,
+         zipcode:this.state.zipcode,
+        // f_name:'Shubham',
+        // l_name:'Chauda',
+        // phone:'9630069774',
+        // email:'avl.shubhamchauda@gmail.com',
+        // password:'123456',
+        // dob:'0000',
+        // gender:'Male',
+        // address:'D-18C, Brajaayani NAgar, Limbodi',
+        // city:'Indore',
+        // state:'MP',
+        // country:'India',
+        // zipcode:'452020',
 
       };
       var formBody = [];
@@ -74,7 +89,8 @@ export default class Login extends React.Component
           formBody.push(encodedKey + "=" + encodedValue);
           }
           formBody = formBody.join("&");
-      let response = await  fetch('https://avalancheinfotech.com/projects/barbershop_api/user/register.php', {
+             
+      let response = await  fetch('https://avalancheinfotech.com/projects/barbershop_api/user/register.php',{
                                method: 'POST',
                                headers: 
                                {
@@ -130,7 +146,9 @@ export default class Login extends React.Component
         this.show('date');
       }
     
-  
+      selectedProjectChange=(value)=>{
+        this.setState({state:value.state,country:value.country})
+      }
     
     render()
     {
@@ -162,39 +180,32 @@ export default class Login extends React.Component
                                      value={this.state.address}
                                     onChangeText={(text) => {this.setState({address:text})}}/>
                        <View>
-                          <View style={{ borderBottomColor:'#D3D3D3',borderBottomWidth:1,width:150,marginTop:20}}>
-                                <Picker  
-                                    selectedValue={this.state.city}
-                                    onValueChange={(itemValue) =>{this.setState({state:itemValue})}}>
-                                    
-                                    <Picker.Item label="city 1" value="city 1"  />
-                                    <Picker.Item label="city 2" value="city 2"/>
-                                    <Picker.Item label = 'city 3' value= 'city 3'/>
-                               </Picker>
+                          <View style={{width:150}}>
+                          <TextInput style={{height:50,marginTop:20,backgroundColor:'white'}}
+                                    label="City"
+                                     value={this.state.city}
+                                    onChangeText={(text) => {this.setState({city:text})}}/>
                           </View>              
                           <View 
                             style={{ position:'absolute', borderBottomColor:'#D3D3D3',borderBottomWidth:1,width:150,marginLeft:210,marginTop:20}}>
                               <Picker  
                                     selectedValue={this.state.state}
-                                    onValueChange={(itemValue) =>{this.setState({state:itemValue})}}>
-                                    
-                                    <Picker.Item label="state 1" value="state 1"  />
-                                    <Picker.Item label="state 2" value="state 2"/>
-                                    <Picker.Item label = 'state 3' value= 'state 3'/>
+                                    onValueChange={(itemValue, itemIndex) => this.selectedProjectChange(itemValue)}>
+                                    <Picker.Item label={this.state.state} value=""  />
+                                    { this.state.state_list.map((item, index)=>(
+                                      <Picker.Item label={item.state} value={item} key={index} />)
+                                    )}
                                </Picker>
                           </View>
                         </View> 
 
                         <View>
-                             <View style={{ borderBottomColor:'#D3D3D3',borderBottomWidth:1,width:150,marginTop:20}}>
-                                <Picker  
-                                    selectedValue={this.state.country}
-                                    onValueChange={(itemValue) =>{this.setState({state:itemValue})}}>
-                                    <Picker.Item label="country 1" value="country 1"  />
-                                    <Picker.Item label="country 2" value="country 2"/>
-                                    <Picker.Item label = 'country 3' value= 'country 3'/>
-                               </Picker>
-                            </View>
+                             
+                          <TextInput style={{height:50,marginTop:20,width:150,backgroundColor:'white'}}
+                                    label="Country"
+                                    editable={false}
+                                     value={this.state.country}
+                                    onChangeText={(text) => {this.setState({country:text})}}/>
                             <View style={{position:'absolute', borderBottomColor:'#D3D3D3',width:150,marginLeft:210,marginTop:20,}}>
                             <TextInput 
                                     style={{height:50,backgroundColor:'white'}}
@@ -220,7 +231,7 @@ export default class Login extends React.Component
                                             <Text 
                                                 style={{marginLeft:50,marginTop:15,
                                                     fontSize:20,borderBottomColor:'#D3D3D3',borderBottomWidth:1,padding:5,width:100}}>
-                                                    {this.state.dob.getDate()+"-"+this.state.dob.getMonth()+'-'+this.state.dob.getFullYear()}
+                                                    {this.state.dob.getDate()+"-"+(this.state.dob.getMonth()+1)+'-'+this.state.dob.getFullYear()}
                                             </Text>
                                 </TouchableOpacity>
                                                 {console.log(this.state.dob.getDate()+"-"+this.state.dob.getMonth()+'-'+this.state.dob.getFullYear())}

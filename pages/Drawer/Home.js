@@ -30,6 +30,7 @@ export default class Home extends React.Component
     
     async componentDidMount()
       { 
+      
        let list =  await fetch('https://avalancheinfotech.com/projects/barbershop_api/owner/store/list_all.php')
        let result = await list.json()
        this.setState({shop_list:result.data})
