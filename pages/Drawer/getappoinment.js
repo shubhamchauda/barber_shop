@@ -24,8 +24,19 @@ export default class Login extends React.Component
     {
         super(props)
         this.state = {
-            email:'',
-           
+            user_id:"",
+            store_id:"",
+            stylist_id:"",
+            service_id:"",
+            booking_date:"",
+            start_time="",
+            end_time:"",
+            pay_method:"",
+            card_holder_name:"",
+            card_number:"",
+            card_expire="",     
+            cvv:"",
+            pay_status:""       
 
         }
     }
@@ -39,7 +50,7 @@ export default class Login extends React.Component
 
     api =async ()=>{try {
         var details = {
-            email: this.state.email,
+            
         };
         var formBody = [];
             for (var property in details) {
@@ -48,7 +59,7 @@ export default class Login extends React.Component
             formBody.push(encodedKey + "=" + encodedValue);
             }
             formBody = formBody.join("&");
-        let response = await  fetch('https://avalancheinfotech.com/projects/barbershop_api/user/forgetpassword.php', {
+        let response = await  fetch('https://avalancheinfotech.com/projects/barbershop_api/user/appointment/add.php', {
                                  method: 'POST',
                                  headers: 
                                  {

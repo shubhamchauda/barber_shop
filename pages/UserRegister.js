@@ -46,10 +46,13 @@ export default class Login extends React.Component
     fetch("https://avalancheinfotech.com/projects/barbershop_api/admin/state/list.php")
       .then(res=>res.json())
       .then(async (res) => {
-        this.setState({state_list:res.data})
+        if(res.status != '0')
+             this.setState({state_list:res.data})
+
       })
       .catch((errorMessage) => {
       })
+      
    }
 
 
@@ -99,10 +102,7 @@ export default class Login extends React.Component
                                body:formBody
                                });
     let json =  await response.json()
-      console.log(json.status);
-      console.log(this.state.email)
-      console.log(this.state.password)
-      console.log(json);
+   
       if (json.status == '1')
       {
          
